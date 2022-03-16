@@ -23,5 +23,5 @@ public class Article {
     private String title;
 
     @Column
-    private String content;
+    private String contents;
 }
