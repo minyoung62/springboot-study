@@ -24,4 +24,10 @@ public class Article {
     @Column
     private String contents;
 
+    public void patch(Article article) {
+        if (article.title != null)
+            this.title = article.title;
+        if (article.contents != null)
+            this.contents = article.contents;
+    }
 }
