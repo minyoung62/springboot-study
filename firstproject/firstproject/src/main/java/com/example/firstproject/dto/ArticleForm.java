@@ -8,10 +8,11 @@ import lombok.ToString;
 @ToString
 public class ArticleForm {
 
+    private Long id;
     private String title;
     private String contents;
 
     public Article toEntity(){
-        return new Article(null, title, contents);
+        return new Article(id, title, contents);
     }
 }
