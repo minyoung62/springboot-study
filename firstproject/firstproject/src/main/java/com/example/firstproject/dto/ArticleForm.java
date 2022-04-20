@@ -2,10 +2,12 @@ package com.example.firstproject.dto;
 
 import com.example.firstproject.entity.Article;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.ToString;
 
 @AllArgsConstructor
 @ToString
+@Builder
 public class ArticleForm {
 
     private Long id;
@@ -13,6 +15,11 @@ public class ArticleForm {
     private String contents;
 
     public Article toEntity(){
-        return new Article(id, title, contents);
+        return Article
+                .builder()
+                .id(this.id)
+                .contents(this.contents)
+                .title(this.title)
+                .build();
     }
 }
