@@ -2,11 +2,6 @@
     <div class="card-body">
         <!-- 댓글 작성 폼-->
         <form>
-            <!-- 닉네임 입력 -->
-            <div class="mb-3">
-                <label class="form-label">닉네임</label>
-                <input class="form-control form-control-sm" id="new-comment-nick">
-            </div>
             <div class="mb-3">
                 <label class="form-label">댓글 내용</label>
                 <input class="form-control form-control-sm" rows="3" id="new-comment-contents">
@@ -34,7 +29,6 @@
 
         // 새 댓글 객체 생성
         const comment = {
-            nickname: document.querySelector("#new-comment-nick").value,
             body: document.querySelector("#new-comment-contents").value,
             article_id: document.querySelector("#new-comment-article-id").value
         };

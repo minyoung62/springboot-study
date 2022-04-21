@@ -2,17 +2,17 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">ID</th>
         <th scope="col">Title</th>
         <th scope="col">Contents</th>
+        <th scope="col">작성자</th>
     </tr>
     </thead>
     <tbody>
     {{#article}}
         <tr>
-            <th>{{id}}</th>
-            <td>{{title}}</td>
+            <th>{{title}}</th>
             <td>{{contents}}</td>
+            <td>{{userNickname}}</td>
         </tr>
     {{/article}}
     </tbody>
