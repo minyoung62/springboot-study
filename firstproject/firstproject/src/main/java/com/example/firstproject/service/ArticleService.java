@@ -1,43 +1,78 @@
 package com.example.firstproject.service;
 
+import com.example.firstproject.dto.ArticleDto;
 import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
+import com.example.firstproject.entity.User;
 import com.example.firstproject.repository.ArticleRepository;
+import com.example.firstproject.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service // 서비스 선언! (서비스 객체를 스프링부트에 생성)
+@Transactional
+@RequiredArgsConstructor
+@Slf4j
 public class ArticleService {
 
-    @Autowired // DI (인젝션, 외부에서 가져오는 것)
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public List<Article> index() {
-        return articleRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<ArticleDto> index() {
+        return articleRepository.findAll().stream()
+                .map(article -> ArticleDto.createArticleDto(article))
+                .collect(Collectors.toList());
     }
 
-    public Article show(Long id) {
-        return articleRepository.findById(id).orElse(null);
+    @Transactional(readOnly = true)
+    public ArticleDto show(Long id) {
+        Article article = articleRepository.findById(id).orElse(null);
+        return ArticleDto.createArticleDto(article);
     }
 
-    public Article create(ArticleForm dto) {
+
+    public ArticleDto create(ArticleForm dto) {
         Article article = dto.toEntity();
         if (article.getId() != null) {
             return null;
         }
-        return articleRepository.save(article);
+
+        // user 확인
+        User user = userService.getUserFromOAuth2();
+
+        if (userRepository.getById(user.getId()) == null) {
+            throw new IllegalArgumentException("can't create because of no authority");
+        }
+
+        article.userSetting(user);
+
+        return ArticleDto.createArticleDto(articleRepository.save(article));
     }
 
-    public Article update(Long id, ArticleForm dto) {
+
+
+    public ArticleDto update(Long id, ArticleForm dto) {
         // 1. 수정용 엔티티 생성
         Article article = dto.toEntity();
 
         // 2. 대상 엔티티 찾기
         Article target = articleRepository.findById(id).orElse(null);
+
+        // user 확인
+        User user = userService.getUserFromOAuth2();
+
+        if (!user.getId().equals(target.getUser().getId())) {
+            throw new IllegalArgumentException("can't update because of no authority");
+        }
+
 
         // 3. 잘못된 요청 처리(대상이 없거나, id가 다른경우)
         if (target == null || id != article.getId()){
@@ -47,25 +82,32 @@ public class ArticleService {
         // 4. 업데이트 및 정상 응답(200)
         target.patch(article);
         Article updated = articleRepository.save(target);
-        return  updated;
+        return  ArticleDto.createArticleDto(updated);
     }
 
-    public Article delete(Long id) {
+    public ArticleDto delete(Long id) {
         // 1. 대상 엔티티 찾기
         Article target = articleRepository.findById(id).orElse(null);
+
+        // user 확인
+        User user = userService.getUserFromOAuth2();
 
         // 2. 잘못된 요청 처리(대상이 없는 경우)
         if (target == null){
             return null;
         }
 
+        if (!user.getId().equals(target.getUser().getId())) {
+            throw new IllegalArgumentException("can't delete because of no authority");
+        }
+
+
         // 3. 대상 삭제 후 응답 반환
         articleRepository.delete(target);
-        return target;
+        return ArticleDto.createArticleDto(target);
     }
 
-    @Transactional
-    public List<Article> createArticles(List<ArticleForm> dtos) {
+    public List<ArticleDto> createArticles(List<ArticleForm> dtos) {
         // dto 묶음을 entity 묶음으로 변환
          List<Article> articleList= dtos.stream()
                 .map(dto -> dto.toEntity())
@@ -81,7 +123,9 @@ public class ArticleService {
         );
 
         // 결과값 반환
-        return articleList;
+        return articleList.stream()
+                .map(article -> ArticleDto.createArticleDto(article))
+                .collect(Collectors.toList());
 
     }
 }

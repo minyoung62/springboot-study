@@ -1,6 +1,7 @@
 package com.example.firstproject.api;
 
 
+import com.example.firstproject.dto.ArticleDto;
 import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.repository.ArticleRepository;
@@ -23,19 +24,20 @@ public class ArticleApiController {
 
     // GET
     @GetMapping("/api/articles")
-    public List<Article> index(){
+    public List<ArticleDto> index(){
         return articleService.index();
     }
 
     @GetMapping("/api/articles/{id}")
-    public Article index(@PathVariable Long id){
+    public ArticleDto index(@PathVariable Long id){
         return articleService.show(id);
     }
 
     // POST
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> create(@RequestBody ArticleForm dto) {
-        Article created = articleService.create(dto);
+    public ResponseEntity<ArticleDto> create(@RequestBody ArticleForm dto) {
+        ArticleDto created = articleService.create(dto);
+
         return (created != null) ?
                 ResponseEntity.status(HttpStatus.OK).body(created) :
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -44,10 +46,10 @@ public class ArticleApiController {
 
     // PATCH
     @PatchMapping("/api/articles/{id}")
-    public ResponseEntity<Article> update(@PathVariable Long id,
+    public ResponseEntity<ArticleDto> update(@PathVariable Long id,
                                           @RequestBody ArticleForm dto){
 
-        Article updated = articleService.update(id, dto);
+        ArticleDto updated = articleService.update(id, dto);
         return (updated != null) ?
                 ResponseEntity.status(HttpStatus.OK).body(updated):
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -57,8 +59,8 @@ public class ArticleApiController {
 
     // DELETE
     @DeleteMapping("/api/articles/{id}")
-    public ResponseEntity<Article> delete(@PathVariable Long id){
-        Article deleted = articleService.delete(id);
+    public ResponseEntity<ArticleDto> delete(@PathVariable Long id){
+        ArticleDto deleted = articleService.delete(id);
         return (deleted != null ) ?
                 ResponseEntity.status(HttpStatus.NO_CONTENT).body(deleted):
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -66,8 +68,8 @@ public class ArticleApiController {
 
     // 트랜젝션 -> 실패 -> 롤백 !
     @PostMapping("/api/transaction-test")
-    public ResponseEntity<List<Article>> transactionTest(@RequestBody List<ArticleForm> dtos){
-        List<Article> createdList = articleService.createArticles(dtos);
+    public ResponseEntity<List<ArticleDto>> transactionTest(@RequestBody List<ArticleForm> dtos){
+        List<ArticleDto> createdList = articleService.createArticles(dtos);
         return (createdList != null)?
                 ResponseEntity.status(HttpStatus.OK).body(createdList):
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
