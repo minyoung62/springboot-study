@@ -2,10 +2,7 @@ package com.example.firstproject.entity;
 
 
 import com.example.firstproject.dto.CommentDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +11,7 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Comment {
 
     @Id
@@ -28,7 +26,20 @@ public class Comment {
     private String nickname;
 
     @Column
+    private Long userId;
+
+    @Column
     private String body;
+
+//    @Embedded
+//    private TimeStamp timeStamp;
+
+    public void settingUser(User user) {
+        if (user == null) throw new IllegalArgumentException("존재하지 않는 유저");
+        this.userId = user.getId();
+        this.nickname = user.getNickname();
+
+    }
 
     public static Comment createComment(CommentDto dto, Article article) {
         // 예외 처리
@@ -37,12 +48,12 @@ public class Comment {
         if (dto.getArticleId() != article.getId())
             throw new IllegalArgumentException("댓글 생성 실패! 게시글의 id가 잘못되었습니다");
         // 엔티티 생성 및 반환
-        return new Comment(
-                dto.getId(),
-                article,
-                dto.getNickname(),
-                dto.getBody()
-        );
+        return Comment.builder()
+                .id(dto.getId())
+                .article(article)
+                .nickname(dto.getNickname())
+                .body(dto.getBody())
+                .build();
     }
 
     public void patch(CommentDto dto) {

@@ -3,24 +3,30 @@ package com.example.firstproject.service;
 import com.example.firstproject.dto.CommentDto;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.entity.Comment;
+import com.example.firstproject.entity.User;
 import com.example.firstproject.repository.ArticleRepository;
 import com.example.firstproject.repository.CommentRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class CommentService {
-    @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private ArticleRepository articleRepository;
 
+    private final CommentRepository commentRepository;
 
+    private final ArticleRepository articleRepository;
+
+    private final UserService userService;
+
+    @Transactional(readOnly = true)
     public List<CommentDto> comments(Long articleId) {
         // 조회: 댓글 목록
         // 반환
@@ -30,15 +36,18 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
     public CommentDto create(Long articleId, CommentDto dto) {
         // 게시글 조회 및 예외 발생
         Article article = articleRepository.findById(articleId)
                 .orElseThrow(() -> new IllegalArgumentException("댓글 생성 실패! 대상 게시글이 없습니다"));
 
+        User user = userService.getUserFromOAuth2();
+        if(user == null) throw new IllegalArgumentException("can't write comments");
+
+
         // 댓글 엔티티 생성
         Comment comment = Comment.createComment(dto, article);
-
+        comment.settingUser(user);
         // 댓글 엔티티를 DB로 저장
         Comment created = commentRepository.save(comment);
 
@@ -53,6 +62,11 @@ public class CommentService {
         Comment target = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("댓글 수정 실패! 대상 댓글이 없습니다."));
 
+        User user = userService.getUserFromOAuth2();
+
+        if (!user.getId().equals(target.getUserId())) {
+            throw new IllegalArgumentException("can't update because of no authority");
+        }
         // 댓글 수정
         target.patch(dto);
 
@@ -70,6 +84,10 @@ public class CommentService {
         Comment target = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("댓글 삭제 실패! 대상 댓글이 없습니다."));
 
+        User user = userService.getUserFromOAuth2();
+        if (!user.getId().equals(target.getUserId())) {
+            throw new IllegalArgumentException("can't update because of no authority");
+        }
         // 댓글 삭제
         commentRepository.delete(target);
 
