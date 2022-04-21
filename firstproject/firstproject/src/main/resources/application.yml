@@ -1,3 +1,4 @@
+
 spring:
   h2:
     console:
@@ -10,15 +11,33 @@ spring:
         format_sql: true
 
 
+  datasource:
+    generate-unique-name: false
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: c350aee33522cff952506c2246e3bd4d
+            client-secret:
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            authorization-grant-type: authorization_code
+            client-name: kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
 logging:
   level:
-    org:
-      hibernate:
-        SQL: DEBUG
-        descriptor:
-          sql:
-            BasicBinder: TRACE
-
-  datasource:
-    generate-unique-name: fale
-    url: jdbc:h2:mem:testdb
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
