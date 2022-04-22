@@ -3,6 +3,7 @@ package com.example.firstproject.api;
 
 import com.example.firstproject.dto.ArticleDto;
 import com.example.firstproject.dto.ArticleForm;
+import com.example.firstproject.dto.ArticleSearch;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.repository.ArticleRepository;
 import com.example.firstproject.service.ArticleService;
@@ -24,8 +25,8 @@ public class ArticleApiController {
 
     // GET
     @GetMapping("/api/articles")
-    public List<ArticleDto> index(){
-        return articleService.index();
+    public List<ArticleDto> index(@RequestBody ArticleSearch articleSearch){
+        return articleService.index(articleSearch);
     }
 
     @GetMapping("/api/articles/{id}")

@@ -29,6 +29,7 @@ public class Article {
     @JoinColumn(name = "user_id")
     private User user;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
@@ -40,6 +41,8 @@ public class Article {
         if(user == null) throw new IllegalArgumentException("해당유저가 존재하지 않음");
         this.user = user;
     }
+
+
 
     public void patch(Article article) {
         if (article.title != null)

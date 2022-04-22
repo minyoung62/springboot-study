@@ -16,6 +16,7 @@ public class ArticleForm {
     private String title;
     private String contents;
 
+
     public Article toEntity(){
         return Article
                 .builder()

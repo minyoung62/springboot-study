@@ -15,7 +15,6 @@ public class ArticleDto {
     private String contents;
     private String userNickname;
 
-
     public static ArticleDto createArticleDto(Article article) {
 
         return ArticleDto.builder()

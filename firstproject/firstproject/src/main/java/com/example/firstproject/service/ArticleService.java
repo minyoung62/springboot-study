@@ -2,6 +2,7 @@ package com.example.firstproject.service;
 
 import com.example.firstproject.dto.ArticleDto;
 import com.example.firstproject.dto.ArticleForm;
+import com.example.firstproject.dto.ArticleSearch;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.entity.User;
 import com.example.firstproject.repository.ArticleRepository;
@@ -26,8 +27,8 @@ public class ArticleService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<ArticleDto> index() {
-        return articleRepository.findAll().stream()
+    public List<ArticleDto> index(ArticleSearch articleSearch) {
+        return articleRepository.findByFilter(articleSearch).stream()
                 .map(article -> ArticleDto.createArticleDto(article))
                 .collect(Collectors.toList());
     }

@@ -2,6 +2,7 @@ package com.example.firstproject.controller;
 
 import com.example.firstproject.dto.ArticleDto;
 import com.example.firstproject.dto.ArticleForm;
+import com.example.firstproject.dto.ArticleSearch;
 import com.example.firstproject.dto.CommentDto;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.repository.ArticleRepository;
@@ -60,9 +61,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public String index(Model model){
+    public String index(Model model, ArticleSearch articleSearch){
         // 1: 모든 Article을 가져온다
-        List<ArticleDto> articleDtos = articleService.index();
+        log.info("Search"+articleSearch.getSearch());
+        List<ArticleDto> articleDtos = articleService.index(articleSearch);
 
         // 2: 가져온 Article 묶음을 뷰로 전달
         model.addAttribute("articleList", articleDtos);
@@ -70,6 +72,8 @@ public class ArticleController {
         // 3: 뷰 페이지를 설정
         return "articles/index";
     }
+
+
 
     @GetMapping("/articles/{id}/edit")
     public String edit(@PathVariable Long id, Model model){
