@@ -42,7 +42,7 @@
 
 
 # Entity 분석
-![image](https://user-images.githubusercontent.com/61530368/164737513-e7c8c74e-39bf-4110-9d3f-423c4b20c44b.png)
+![image](https://user-images.githubusercontent.com/61530368/164738267-0cc12740-0a5a-4c79-a3f1-a4e274a45f55.png)
 
   
   - 사용자(User): id, email, nickname, password, thumbnail, 그리고 Article 리스트를 가진다. 한 사용자는 여러개의 게시글을 작성할 수 있으므로 Article과 일대다 관계다
@@ -51,7 +51,9 @@
   - TimeStamp: 객체가 만들어진 시간 또는 변경되는 시간의 값 타임(임베디드 타입)이다. 모든 객체들은 TimeStamp를 가지고 있다
   
 # ERD 분석
-![image](https://user-images.githubusercontent.com/61530368/164737556-0035640f-965c-4b9f-b6d6-08e236001193.png)
+![image](https://user-images.githubusercontent.com/61530368/164738301-8604ef50-3a1b-4589-9821-0d3c14f715c4.png)
+
+
 
   - user: user 테이블은 PK가 user_id이다
   - article: article 테이블은 PK가 article_id이고 FK는 user_id이다. user테이블과 1:N의 관계를 맺고 있다
