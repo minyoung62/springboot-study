@@ -18,7 +18,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne // 해당 댓글 엔티티 여러개가, 하나의 Article에 연관된다
+    @ManyToOne(fetch = FetchType.LAZY) // 해당 댓글 엔티티 여러개가, 하나의 Article에 연관된다
     @JoinColumn(name = "article_id")
     private Article article;
 
