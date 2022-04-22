@@ -42,7 +42,8 @@
 
 
 # Entity 분석
-![image](https://user-images.githubusercontent.com/61530368/164738267-0cc12740-0a5a-4c79-a3f1-a4e274a45f55.png)
+![image](https://user-images.githubusercontent.com/61530368/164738529-6aae5e3d-5a87-49bc-b794-0789ebb4f340.png)
+
 
   
   - 사용자(User): id, email, nickname, password, thumbnail, 그리고 Article 리스트를 가진다. 한 사용자는 여러개의 게시글을 작성할 수 있으므로 Article과 일대다 관계다
