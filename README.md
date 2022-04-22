@@ -61,16 +61,16 @@
 
 # UI
   - 메인
-  ![image](https://user-images.githubusercontent.com/61530368/164709162-d52fa678-c144-4425-9a7e-f20e617e4d9c.png)
+![image](https://user-images.githubusercontent.com/61530368/164709566-f0737898-6b9a-40c2-9c33-8369b3bfa83c.png)
 
   - 게시글
-  ![image](https://user-images.githubusercontent.com/61530368/164709150-da4ef914-738d-4d2f-9522-1d2f90d3b3bc.png)
+![image](https://user-images.githubusercontent.com/61530368/164709559-33dba311-191c-4c97-b954-2012b7a03ace.png)
 
   - 댓글 수정
-  ![image](https://user-images.githubusercontent.com/61530368/164709139-41281da1-f075-473c-9c15-3c0819bedd6c.png)
+![image](https://user-images.githubusercontent.com/61530368/164709551-060a495b-88dd-4433-9ccc-3dd404ffdbd4.png)
 
   - 검색 필터링 (title에 "글"이라는 문자가 들어가 있는 것만 가져옴)
-  [image](https://user-images.githubusercontent.com/61530368/164709061-88a4252b-a7f9-45f2-bff8-e0d9e21048ef.png)
+![image](https://user-images.githubusercontent.com/61530368/164709542-f8ea1eea-84cc-4b5a-8de9-91c885ad1b54.png)
 
 
 # 새로 배운 것 
