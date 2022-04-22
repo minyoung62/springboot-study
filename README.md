@@ -1,5 +1,5 @@
 # SpringBoot-Study Project 
-  - 인프런에서 QueryDsl수업과 JPA를 듣고 기존에 3.16 ~ 3.18에 만들었던 프로젝트를 Refactoring 및 기능 추가
+  - 기존에 3.16 ~ 3.18에 만들었던 프로젝트를 Refactoring 및 기능 추가
     1. 사용자 추가 
     2. Spring Security와 KaKao OAuth를 이용하여 OAuth 로그인 기능 추가 (Spring Security를 추가 학습 후 로그인, 로그아웃 기능, JWT을 통해 구현예정 )
     3. Querydsl을 사용하여 동적 쿼리 생성 ( 검색 기능 )
@@ -58,6 +58,19 @@
   - comment: comment 테이블은 PK가 comment_id이고 FK는 article_id이다. article테이블과 1:N의 관계를 맺고 있다
 
 
+
+# UI
+  - 메인
+  ![image](https://user-images.githubusercontent.com/61530368/164709162-d52fa678-c144-4425-9a7e-f20e617e4d9c.png)
+
+  - 게시글
+  ![image](https://user-images.githubusercontent.com/61530368/164709150-da4ef914-738d-4d2f-9522-1d2f90d3b3bc.png)
+
+  - 댓글 수정
+  ![image](https://user-images.githubusercontent.com/61530368/164709139-41281da1-f075-473c-9c15-3c0819bedd6c.png)
+
+  - 검색 필터링 (title에 "글"이라는 문자가 들어가 있는 것만 가져옴)
+  [image](https://user-images.githubusercontent.com/61530368/164709061-88a4252b-a7f9-45f2-bff8-e0d9e21048ef.png)
 
 
 # 새로 배운 것 
